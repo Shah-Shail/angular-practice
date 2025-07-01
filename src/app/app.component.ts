@@ -1,12 +1,38 @@
 import { Component } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet],
+  imports: [FormsModule],
   templateUrl: './app.component.html',
-  styleUrl: './app.component.css'
+  styleUrl: './app.component.css',
 })
 export class AppComponent {
-  title = 'angular-practice';
+  task = '';
+  taskList: { id: number; task: string }[] = [];
+  editTaskData: { id?: number; task?: string } = {};
+
+  addTask() {
+    if (!this.editTaskData.id) {
+      this.taskList.push({ id: this.taskList.length + 1, task: this.task });
+    } else {
+      let findIndex = this.taskList.findIndex(
+        (item) => item.id === this.editTaskData.id
+      );
+      this.taskList[findIndex] = {
+        id: this.editTaskData.id,
+        task: this.task,
+      };
+    }
+    this.task = '';
+  }
+
+  editTask(task: { id: number; task: string }) {
+    this.editTaskData = task;
+    this.task = task.task;
+  }
+
+  deleteTask(taskId: number) {
+    this.taskList = this.taskList.filter((item) => item.id != taskId);
+  }
 }
