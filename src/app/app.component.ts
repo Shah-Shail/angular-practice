@@ -23,6 +23,7 @@ export class AppComponent {
         id: this.editTaskData.id,
         task: this.task,
       };
+      this.editTaskData = {};
     }
     this.task = '';
   }
